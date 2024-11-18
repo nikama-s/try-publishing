@@ -1,14 +1,15 @@
 "use client";
 import { Box, TextField } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
 import Pagination from "./Pagination";
 import usePagination from "./usePagination";
 import Item from "./Item";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { Product } from "../typeProduct";
-import { useEffect, useState } from "react";
 import Loader from "../Loader";
 import Error from "../Error";
+import { Product } from "../typeProduct";
 
 export default function MainPageContent() {
   const itemsPerPage = 10;
@@ -24,16 +25,16 @@ export default function MainPageContent() {
       return response.data.products;
     },
   });
+
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredProducts = products.filter(
-    (product) =>
-      product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      product.tags.some((tag) =>
-        tag.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+  const filteredProducts = products.filter((product) =>
+    [product.title, product.category, ...product.tags]
+      .join(" ")
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase())
   );
+
   const {
     currentPage,
     setCurrentPage,
@@ -45,68 +46,63 @@ export default function MainPageContent() {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
-    localStorage.setItem("currentPage", String(page));
   };
 
   useEffect(() => {
     const savedPage = localStorage.getItem("currentPage");
-    if (savedPage) {
-      setCurrentPage(Number(savedPage));
-    }
+    if (savedPage) setCurrentPage(Number(savedPage));
   }, [setCurrentPage]);
 
   if (isLoading) return <Loader />;
   if (isError) return <Error />;
 
+  const styles = {
+    searchContainer: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    searchBox: {
+      margin: "20px",
+      marginBottom: "0",
+      maxWidth: "500px",
+      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#443b38",
+        borderWidth: "1px",
+      },
+      "& .MuiInputLabel-root.Mui-focused": {
+        color: "inherit",
+      },
+    },
+    productGrid: {
+      display: "grid",
+      gridTemplateColumns: {
+        xs: "1fr",
+        sm: "1fr",
+        md: "repeat(2, 1fr)",
+        lg: "repeat(2, 1fr)",
+      },
+      gap: "20px",
+      padding: "20px",
+      maxWidth: "1200px",
+      margin: "0 auto",
+      gridAutoRows: "1fr",
+    },
+  };
+
   return (
     <Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <Box sx={styles.searchContainer}>
         <TextField
           label="Search Products"
           variant="outlined"
           fullWidth
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          sx={{
-            margin: "20px",
-            marginBottom: "0",
-            maxWidth: "500px",
-            "& .MuiOutlinedInput-root": {
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#443b38",
-                borderWidth: "1px",
-              },
-            },
-            "& .MuiInputLabel-root": {
-              "&.Mui-focused": {
-                color: "inherit",
-              },
-            },
-          }}
+          sx={styles.searchBox}
         />
       </Box>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: {
-            xs: "1fr",
-            sm: "1fr",
-            md: "repeat(2, 1fr)",
-            lg: "repeat(2, 1fr)",
-          },
-          gap: "20px",
-          padding: "20px",
-          maxWidth: "1200px",
-          margin: "0 auto",
-          gridAutoRows: "1fr",
-        }}
-      >
+      <Box sx={styles.productGrid}>
         {currentItems.map((product) => (
           <Item product={product} key={product.id} />
         ))}

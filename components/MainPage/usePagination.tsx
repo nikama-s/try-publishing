@@ -16,10 +16,8 @@ export default function usePagination(
   storageKey: string = "currentPage"
 ): PaginationHook {
   const [currentPage, setCurrentPage] = useState<number>(() => {
-    let savedPage;
-    if (typeof window !== "undefined")
-      savedPage = localStorage?.getItem(storageKey);
-    else savedPage = null;
+    if (typeof window === "undefined") return 1;
+    const savedPage = localStorage?.getItem(storageKey);
     return savedPage ? parseInt(savedPage, 10) : 1;
   });
 
@@ -29,6 +27,12 @@ export default function usePagination(
     if (currentPage > totalPages) setCurrentPage(1);
   }, [totalPages, currentPage]);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(storageKey, currentPage.toString());
+    }
+  }, [currentPage, storageKey]);
+
   const currentItems = items.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -36,6 +40,7 @@ export default function usePagination(
 
   const createPaginationArray = () => {
     const result: (number | string)[] = [1];
+
     if (currentPage > 3) result.push("...");
 
     for (
@@ -48,6 +53,7 @@ export default function usePagination(
 
     if (currentPage < totalPages - 2) result.push("...");
     if (totalPages > 1) result.push(totalPages);
+
     return result;
   };
 

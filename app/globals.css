@@ -3,17 +3,6 @@
   --foreground: #443b38;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;

@@ -18,6 +18,7 @@ export interface Product {
   minimumOrderQuantity: string;
   tags: string[];
 }
+
 interface Reviews {
   rating: number;
   comment: string;

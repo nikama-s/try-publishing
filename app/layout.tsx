@@ -14,8 +14,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html
+      lang="en"
+      style={{ boxSizing: "border-box", padding: "0", margin: "0" }}
+    >
+      <body
+        style={{
+          maxWidth: "100vw",
+          overflowX: "hidden",
+          color: "var(--foreground)",
+          background: "var(--background)",
+          fontFamily: "Arial, Helvetica, sans-serif",
+          WebkitFontSmoothing: "antialiased",
+          MozOsxFontSmoothing: "grayscale",
+        }}
+      >
         <TanstackProvider>
           <Header />
           {children}

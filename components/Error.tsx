@@ -1,4 +1,5 @@
 import { Box, Typography } from "@mui/material";
+
 export default function Error() {
   return (
     <Box sx={{ textAlign: "center", marginTop: "50px" }}>
