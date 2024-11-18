@@ -5,14 +5,14 @@ export default function Header() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "var(--foreground)",
+        backgroundColor: "#443b38",
       }}
     >
       <Typography
         variant="h4"
         component="div"
         sx={{
-          color: "var(--background)",
+          color: "#ecd9d0",
           flexGrow: 1,
           textAlign: "center",
           fontWeight: "bold",

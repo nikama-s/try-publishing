@@ -22,11 +22,14 @@ export default function RootLayout({
         style={{
           maxWidth: "100vw",
           overflowX: "hidden",
-          color: "var(--foreground)",
-          background: "var(--background)",
+          color: "#443b38",
+          background: "#ecd9d0",
           fontFamily: "Arial, Helvetica, sans-serif",
           WebkitFontSmoothing: "antialiased",
           MozOsxFontSmoothing: "grayscale",
+          boxSizing: "border-box",
+          padding: "0",
+          margin: "0",
         }}
       >
         <TanstackProvider>

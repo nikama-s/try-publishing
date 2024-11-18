@@ -8,17 +8,22 @@ export default function ProductInfo({ product }: { product: Product }) {
     (product.price * product.discountPercentage) / 100
   ).toFixed(2);
 
+  const productDetails = [
+    { label: "Rating", value: product.rating && `⭐ ${product.rating}` },
+    { label: "Stock", value: product.stock && `${product.stock} available` },
+    { label: "Brand", value: product.brand },
+  ];
+
   return (
     <>
-      <Box
-        sx={{
-          color: "#e43030",
-          mb: "20px",
-        }}
-      >
+      <Box sx={{ color: "#e43030", mb: 3 }}>
         <Typography
           component="p"
-          sx={{ display: "flex", alignItems: "center", fontSize: "1.5rem" }}
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            fontSize: "1.5rem",
+          }}
         >
           <strong>Price: ${priceWithDiscount}</strong>
           <Typography
@@ -39,20 +44,17 @@ export default function ProductInfo({ product }: { product: Product }) {
 
       <Divider sx={{ my: 2 }} />
 
-      {product.rating && (
-        <Typography component="p" sx={{ fontSize: "1.2rem", mb: 1 }}>
-          <strong>Rating:</strong> ⭐ {product.rating}
-        </Typography>
-      )}
-      {product.stock && (
-        <Typography component="p" sx={{ fontSize: "1.2rem", mb: 1 }}>
-          <strong>Stock:</strong> {product.stock} available
-        </Typography>
-      )}
-      {product.brand && (
-        <Typography component="p" sx={{ fontSize: "1.2rem", mb: 1 }}>
-          <strong>Brand:</strong> {product.brand}
-        </Typography>
+      {productDetails.map(
+        ({ label, value }) =>
+          value && (
+            <Typography
+              key={label}
+              component="p"
+              sx={{ fontSize: "1.2rem", mb: 1 }}
+            >
+              <strong>{label}:</strong> {value}
+            </Typography>
+          )
       )}
 
       <Divider sx={{ my: 2 }} />

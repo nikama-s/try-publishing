@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Product } from "@/components/typeProduct";
 import ProductInfo from "@/components/DetailsPage/ProductInfo";
-import Reviews from "./Reviews";
+import Reviews from "./AllReviews";
 
 export default function DetailsPage() {
   const [product, setProduct] = useState<Product | null>(null);
