@@ -7,9 +7,9 @@ import axios from "axios";
 import Pagination from "./Pagination";
 import usePagination from "./usePagination";
 import Item from "./Item";
-import Loader from "../Loader";
-import Error from "../Error";
-import { Product } from "../typeProduct";
+import Loader from "@/components/Loader";
+import Error from "@/components/Error";
+import { Product } from "@/components/typeProduct";
 
 export default function MainPageContent() {
   const itemsPerPage = 10;
@@ -32,7 +32,7 @@ export default function MainPageContent() {
     [product.title, product.category, ...product.tags]
       .join(" ")
       .toLowerCase()
-      .includes(searchQuery.toLowerCase())
+      .includes(searchQuery.toLowerCase().trim())
   );
 
   const {
@@ -54,7 +54,7 @@ export default function MainPageContent() {
   }, [setCurrentPage]);
 
   if (isLoading) return <Loader />;
-  if (isError) return <Error />;
+  if (isError) return <Error>Error loading products</Error>;
 
   const styles = {
     searchContainer: {
@@ -102,17 +102,23 @@ export default function MainPageContent() {
           sx={styles.searchBox}
         />
       </Box>
-      <Box sx={styles.productGrid}>
-        {currentItems.map((product) => (
-          <Item product={product} key={product.id} />
-        ))}
-      </Box>
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        paginationArray={paginationArray}
-      />
+      {filteredProducts.length > 0 ? (
+        <>
+          <Box sx={styles.productGrid}>
+            {currentItems.map((product) => (
+              <Item product={product} key={product.id} />
+            ))}
+          </Box>
+          <Pagination
+            totalPages={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+            paginationArray={paginationArray}
+          />
+        </>
+      ) : (
+        <Error>Could not find any products</Error>
+      )}
     </Box>
   );
 }

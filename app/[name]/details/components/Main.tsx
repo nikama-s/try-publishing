@@ -1,23 +1,29 @@
 "use client";
 import { Box, Button, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { Product } from "@/components/typeProduct";
-import ProductInfo from "@/components/DetailsPage/ProductInfo";
+import ProductInfo from "./ProductInfo";
 import Reviews from "./AllReviews";
+import Loader from "@/components/Loader";
+import Error from "@/components/Error";
 
-export default function DetailsPage() {
-  const [product, setProduct] = useState<Product | null>(null);
+export default function DetailsPage({ id }: { id: string }) {
+  const {
+    data: product,
+    isLoading,
+    isError,
+  } = useQuery<Product>({
+    queryKey: ["product", Number(id)],
+    queryFn: async () => {
+      const response = await axios.get(`https://dummyjson.com/products/${id}`);
+      return response.data;
+    },
+  });
 
-  useEffect(() => {
-    const storedProduct = localStorage.getItem("selectedProduct");
-    if (storedProduct) {
-      setProduct(JSON.parse(storedProduct));
-    }
-  }, []);
-
-  if (!product) {
-    return <div className="loading">Loading...</div>;
-  }
+  if (id === undefined) return <Error>Could not find this item</Error>;
+  if (isLoading) return <Loader />;
+  if (!product || isError) return <Error>Could not find this item</Error>;
 
   return (
     <Box

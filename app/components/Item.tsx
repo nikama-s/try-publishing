@@ -1,13 +1,14 @@
 import { useRouter } from "next/navigation";
-import { Product } from "../typeProduct";
+import { Product } from "@/components/typeProduct";
 import { Box, Typography } from "@mui/material";
 
 export default function Item({ product }: { product: Product }) {
   const router = useRouter();
 
   const handleItemClick = () => {
-    localStorage.setItem("selectedProduct", JSON.stringify(product)); // Save to localStorage
-    router.push("/details");
+    const noSpaces = product.title.split(" ").join("");
+    const formattedTitle = noSpaces.split("-").join("");
+    router.push(`/${formattedTitle}-${product.id}/details`);
   };
 
   const priceWithDiscount = (

@@ -1,4 +1,4 @@
-import MainPageContent from "@/components/MainPage/MainPageContent";
+import MainPageContent from "@/app/components/MainPageContent";
 import { Box } from "@mui/material";
 
 export default function Home() {
