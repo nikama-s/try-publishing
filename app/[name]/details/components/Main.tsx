@@ -7,8 +7,11 @@ import ProductInfo from "./ProductInfo";
 import Reviews from "./AllReviews";
 import Loader from "@/components/Loader";
 import Error from "@/components/Error";
+import { useRouter } from "next/navigation";
 
 export default function DetailsPage({ id }: { id: string }) {
+  const router = useRouter();
+
   const {
     data: product,
     isLoading,
@@ -20,6 +23,10 @@ export default function DetailsPage({ id }: { id: string }) {
       return response.data;
     },
   });
+
+  const handleClick = () => {
+    router.push(`/`);
+  };
 
   if (id === undefined) return <Error>Could not find this item</Error>;
   if (isLoading) return <Loader />;
@@ -81,7 +88,7 @@ export default function DetailsPage({ id }: { id: string }) {
 
       <Button
         variant="contained"
-        onClick={() => history.back()}
+        onClick={handleClick}
         sx={{
           mt: 3,
           backgroundColor: "#eaab96",
