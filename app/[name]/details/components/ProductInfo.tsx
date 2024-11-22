@@ -1,4 +1,4 @@
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 import { Box, Typography, Divider } from "@mui/material";
 import AdditionalInfo from "./AdditionalInfo";
 
@@ -16,11 +16,12 @@ export default function ProductInfo({ product }: { product: Product }) {
 
   return (
     <>
-      <Box sx={{ color: "#e43030", mb: 3 }}>
+      <Box sx={{ mb: 3 }}>
         <Typography
           component="p"
           sx={{
             display: "flex",
+            color: "#e43030",
             alignItems: "center",
             fontSize: "1.5rem",
           }}

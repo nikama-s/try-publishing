@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 
 interface PaginationHook {
   currentPage: number;

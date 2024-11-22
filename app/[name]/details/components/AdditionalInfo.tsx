@@ -1,5 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 
 export default function AdditionalInfo({ product }: { product: Product }) {
   const productDetails = [

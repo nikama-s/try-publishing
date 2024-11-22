@@ -1,5 +1,5 @@
 import { useRouter } from "next/navigation";
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 import { Box, Typography } from "@mui/material";
 
 export default function Item({ product }: { product: Product }) {

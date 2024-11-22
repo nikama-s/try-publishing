@@ -1,5 +1,5 @@
 "use client";
-import { Box, TextField } from "@mui/material";
+import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -9,7 +9,8 @@ import usePagination from "./usePagination";
 import Item from "./Item";
 import Loader from "@/components/Loader";
 import Error from "@/components/Error";
-import { Product } from "@/components/typeProduct";
+import SearchAndSort from "./SearchAndSort";
+import { Product } from "@/components/types/typeProduct";
 
 export default function MainPageContent() {
   const itemsPerPage = 10;
@@ -27,6 +28,7 @@ export default function MainPageContent() {
   });
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("noSort");
 
   const filteredProducts = products.filter((product) =>
     [product.title, product.category, ...product.tags]
@@ -35,13 +37,31 @@ export default function MainPageContent() {
       .includes(searchQuery.toLowerCase().trim())
   );
 
+  const sortedProducts = sortProducts(filteredProducts, sortBy);
+
   const {
     currentPage,
     setCurrentPage,
     totalPages,
     currentItems,
     paginationArray,
-  } = usePagination(filteredProducts, itemsPerPage);
+  } = usePagination(sortedProducts, itemsPerPage);
+
+  function sortProducts(productArr: Product[], sortOption: string): Product[] {
+    if (sortOption === "noSort") return productArr;
+
+    const sortedProducts = [...productArr];
+    switch (sortOption) {
+      case "priceAsc":
+        return sortedProducts.sort((a, b) => a.price - b.price);
+      case "priceDesc":
+        return sortedProducts.sort((a, b) => b.price - a.price);
+      case "rating":
+        return sortedProducts.sort((a, b) => b.rating - a.rating);
+      default:
+        return productArr;
+    }
+  }
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -57,30 +77,13 @@ export default function MainPageContent() {
   if (isError) return <Error>Error loading products</Error>;
 
   const styles = {
-    searchContainer: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-    },
-    searchBox: {
-      margin: "20px",
-      marginBottom: "0",
-      maxWidth: "500px",
-      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#443b38",
-        borderWidth: "1px",
-      },
-      "& .MuiInputLabel-root.Mui-focused": {
-        color: "inherit",
-      },
-    },
     productGrid: {
       display: "grid",
       gridTemplateColumns: {
         xs: "1fr",
-        sm: "1fr",
-        md: "repeat(2, 1fr)",
-        lg: "repeat(2, 1fr)",
+        sm: "1fr 1fr",
+        md: "1fr 1fr",
+        lg: "1fr 1fr",
       },
       gap: "20px",
       padding: "20px",
@@ -92,17 +95,13 @@ export default function MainPageContent() {
 
   return (
     <Box>
-      <Box sx={styles.searchContainer}>
-        <TextField
-          label="Search Products"
-          variant="outlined"
-          fullWidth
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          sx={styles.searchBox}
-        />
-      </Box>
-      {filteredProducts.length > 0 ? (
+      <SearchAndSort
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+      />
+      {sortedProducts.length > 0 ? (
         <>
           <Box sx={styles.productGrid}>
             {currentItems.map((product) => (

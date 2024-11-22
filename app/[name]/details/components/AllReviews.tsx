@@ -1,4 +1,4 @@
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 import { Box, Typography } from "@mui/material";
 import Review from "./Review";
 

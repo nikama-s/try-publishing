@@ -2,7 +2,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Product } from "@/components/typeProduct";
+import { Product } from "@/components/types/typeProduct";
 import ProductInfo from "./ProductInfo";
 import Reviews from "./AllReviews";
 import Loader from "@/components/Loader";
