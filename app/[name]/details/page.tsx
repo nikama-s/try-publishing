@@ -20,6 +20,8 @@ export default async function DetailsPage({
     );
     return <Main product={product} />;
   } catch (error) {
-    return <Error>Could not find this item</Error>;
+    const errorMessage =
+      (error as Error).message || "An unknown error occurred";
+    return <Error>{errorMessage}</Error>;
   }
 }
