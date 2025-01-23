@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-import Pagination from "./Pagination";
-import usePagination from "./usePagination";
-import Item from "./Item";
-import Loader from "@/components/Loader";
-import Error from "@/components/Error";
-import SearchAndSort from "./SearchAndSort";
+import Pagination from "../pagination";
+import usePagination from "@/components/usePagination";
+import Item from "../item";
+import Loader from "@/components/loader";
+import Error from "@/components/error";
+import SearchAndSort from "../search-and-sort";
 import { Product } from "@/components/types/typeProduct";
+import { styles } from "./MainPageContent.styles";
 
 export default function MainPageContent() {
   const itemsPerPage = 10;
@@ -75,23 +76,6 @@ export default function MainPageContent() {
 
   if (isLoading) return <Loader />;
   if (isError) return <Error>Error loading products</Error>;
-
-  const styles = {
-    productGrid: {
-      display: "grid",
-      gridTemplateColumns: {
-        xs: "1fr",
-        sm: "1fr 1fr",
-        md: "1fr 1fr",
-        lg: "1fr 1fr",
-      },
-      gap: "20px",
-      padding: "20px",
-      maxWidth: "1200px",
-      margin: "0 auto",
-      gridAutoRows: "1fr",
-    },
-  };
 
   return (
     <Box>

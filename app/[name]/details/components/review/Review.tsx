@@ -1,4 +1,5 @@
 import { Typography, Paper } from "@mui/material";
+import { date, reviewContainer, text } from "./Review.styles";
 
 interface Review {
   reviewerName: string;
@@ -9,23 +10,14 @@ interface Review {
 
 export default function Review({ review }: { review: Review }) {
   return (
-    <Paper
-      elevation={1}
-      sx={{
-        mb: 2,
-        p: 2,
-        border: "1px solid #cecece",
-        borderRadius: "8px",
-        backgroundColor: "#f1f1f1",
-      }}
-    >
+    <Paper elevation={1} sx={reviewContainer}>
       <Typography variant="subtitle1" component="p">
         <strong>{review.reviewerName}</strong> ({review.rating} ⭐)
       </Typography>
-      <Typography variant="body2" sx={{ mt: 1 }}>
+      <Typography variant="body2" sx={text}>
         {review.comment}
       </Typography>
-      <Typography variant="caption" component="p" sx={{ mt: 1, color: "#888" }}>
+      <Typography variant="caption" component="p" sx={date}>
         {new Date(review.date).toLocaleDateString()}
       </Typography>
     </Paper>

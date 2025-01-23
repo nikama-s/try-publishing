@@ -1,6 +1,4 @@
-import Main from "@/app/[name]/details/components/Main";
-import axios from "axios";
-import Error from "@/components/Error";
+import Main from "./components/main";
 
 interface Params {
   name: string;
@@ -12,16 +10,7 @@ export default async function DetailsPage({
   params: Promise<Params>;
 }) {
   const resolvedParams = await params;
-  const id = resolvedParams.name.split("-")[1];
-
-  try {
-    const { data: product } = await axios.get(
-      `https://dummyjson.com/products/${id}`
-    );
-    return <Main product={product} />;
-  } catch (error) {
-    const errorMessage =
-      (error as Error).message || "An unknown error occurred";
-    return <Error>{errorMessage}</Error>;
-  }
+  const product = resolvedParams.name;
+  const id = product.split("-")[1];
+  return <Main id={id} />;
 }

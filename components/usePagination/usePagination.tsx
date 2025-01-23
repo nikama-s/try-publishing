@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Product } from "@/components/types/typeProduct";
 
 interface PaginationHook {
@@ -17,15 +17,15 @@ export default function usePagination(
 ): PaginationHook {
   const [currentPage, setCurrentPage] = useState<number>(() => {
     if (typeof window === "undefined") return 1;
-    const savedPage = localStorage?.getItem(storageKey);
-    return savedPage ? parseInt(savedPage, 10) : 1;
+    const savedPage = localStorage.getItem(storageKey);
+    return savedPage ? Math.max(1, parseInt(savedPage, 10)) : 1;
   });
 
   const totalPages = Math.ceil(items.length / itemsPerPage);
 
   useEffect(() => {
     if (currentPage > totalPages) setCurrentPage(1);
-  }, [totalPages, currentPage]);
+  }, [currentPage, totalPages]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -33,12 +33,13 @@ export default function usePagination(
     }
   }, [currentPage, storageKey]);
 
-  const currentItems = items.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const currentItems = useMemo(
+    () =>
+      items.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage),
+    [currentPage, items, itemsPerPage]
   );
 
-  const createPaginationArray = () => {
+  const paginationArray = useMemo(() => {
     const result: (number | string)[] = [1];
 
     if (currentPage > 3) result.push("...");
@@ -55,9 +56,7 @@ export default function usePagination(
     if (totalPages > 1) result.push(totalPages);
 
     return result;
-  };
-
-  const paginationArray = createPaginationArray();
+  }, [currentPage, totalPages]);
 
   return {
     currentPage,

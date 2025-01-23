@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/header";
-import TanstackProvider from "@/components/TanstackProvider";
+import TanstackProvider from "@/components/tanstack";
 
 export const metadata: Metadata = {
   title: "Product Viewer",

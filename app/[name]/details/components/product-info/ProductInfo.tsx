@@ -1,6 +1,7 @@
 import { Product } from "@/components/types/typeProduct";
 import { Box, Typography, Divider } from "@mui/material";
-import AdditionalInfo from "./AdditionalInfo";
+import AdditionalInfo from "../additional-info";
+import { details, discount, infoBox, price } from "./ProductInfo.styles";
 
 export default function ProductInfo({ product }: { product: Product }) {
   const priceWithDiscount = (
@@ -17,27 +18,12 @@ export default function ProductInfo({ product }: { product: Product }) {
   return (
     <>
       <Box sx={{ mb: 3 }}>
-        <Typography
-          component="p"
-          sx={{
-            display: "flex",
-            color: "#e43030",
-            alignItems: "center",
-            fontSize: "1.5rem",
-          }}
-        >
+        <Typography component="p" sx={infoBox}>
           <strong>Price: ${priceWithDiscount}</strong>
-          <Typography
-            component="span"
-            sx={{
-              textDecoration: "line-through",
-              color: "#999",
-              ml: 2,
-            }}
-          >
+          <Typography component="span" sx={price}>
             ${product.price}
           </Typography>
-          <Typography component="span" sx={{ ml: "auto", fontSize: "1.5rem" }}>
+          <Typography component="span" sx={discount}>
             {product.discountPercentage}% off
           </Typography>
         </Typography>
@@ -48,11 +34,7 @@ export default function ProductInfo({ product }: { product: Product }) {
       {productDetails.map(
         ({ label, value }) =>
           value && (
-            <Typography
-              key={label}
-              component="p"
-              sx={{ fontSize: "1.2rem", mb: 1 }}
-            >
+            <Typography key={label} component="p" sx={details}>
               <strong>{label}:</strong> {value}
             </Typography>
           )

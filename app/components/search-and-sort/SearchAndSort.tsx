@@ -7,6 +7,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { styles } from "./SearchAndSort.styles";
 
 interface SearchAndSortProps {
   searchQuery: string;
@@ -21,41 +22,6 @@ export default function SearchAndSort({
   sortBy,
   setSortBy,
 }: SearchAndSortProps) {
-  const styles = {
-    container: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: "10px",
-    },
-    searchBox: {
-      margin: "20px",
-      marginRight: "0",
-      marginBottom: "0",
-      maxWidth: "500px",
-      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#443b38",
-        borderWidth: "1px",
-      },
-      "& .MuiInputLabel-root.Mui-focused": {
-        color: "inherit",
-      },
-    },
-    sortDropdown: {
-      margin: "20px",
-      marginLeft: "0",
-      marginBottom: "0",
-      minWidth: "100px",
-      "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "#443b38",
-        borderWidth: "1px",
-      },
-      "& .MuiInputLabel-root.Mui-focused": {
-        color: "inherit",
-      },
-    },
-  };
-
   return (
     <Box sx={styles.container}>
       <TextField
@@ -67,7 +33,7 @@ export default function SearchAndSort({
         fullWidth
       />
       <FormControl sx={styles.sortDropdown}>
-        <InputLabel sx={{ backgroundColor: "#ecd9d0" }}>Sort By</InputLabel>
+        <InputLabel sx={styles.input}>Sort By</InputLabel>
         <Select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <MenuItem value="noSort">No Sorting</MenuItem>
           <MenuItem value="priceAsc">Price ↑</MenuItem>
