@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from "@mui/material";
+import { boxStyle, getButtonStyles, itemStyle } from "./Pagination.styles";
 
 interface PaginationProps {
   totalPages: number;
@@ -13,30 +14,12 @@ export default function Pagination({
   onPageChange,
   paginationArray,
 }: PaginationProps) {
-  const buttonStyles = {
-    margin: "0 5px",
-    backgroundColor: "#eaeaea",
-    color: "#000",
-    width: "40px",
-    minWidth: "auto",
-    borderRadius: "10px",
-    "@media (max-width: 600px)": {
-      width: "30px",
-    },
-  };
-
-  const activeButtonStyles = {
-    ...buttonStyles,
-    backgroundColor: "#eaab96",
-    color: "#fff",
-  };
-
   return (
-    <Box sx={{ textAlign: "center", mt: 2, mb: 3 }}>
+    <Box sx={boxStyle}>
       <Button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        sx={buttonStyles}
+        sx={getButtonStyles(false)}
       >
         {"<"}
       </Button>
@@ -45,12 +28,12 @@ export default function Pagination({
           <Button
             key={index}
             onClick={() => onPageChange(item)}
-            sx={currentPage === item ? activeButtonStyles : buttonStyles}
+            sx={getButtonStyles(currentPage === item)}
           >
             {item}
           </Button>
         ) : (
-          <Typography key={index} component="span" sx={{ margin: "0 5px" }}>
+          <Typography key={index} component="span" sx={itemStyle}>
             {item}
           </Typography>
         )
@@ -58,7 +41,7 @@ export default function Pagination({
       <Button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        sx={buttonStyles}
+        sx={getButtonStyles(false)}
       >
         {">"}
       </Button>

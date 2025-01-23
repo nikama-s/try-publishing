@@ -1,5 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Product } from "@/components/types/typeProduct";
+import { AdditionalInfoCont, infoText } from "./AdditionalInfo.styles";
 
 export default function AdditionalInfo({ product }: { product: Product }) {
   const productDetails = [
@@ -11,11 +12,11 @@ export default function AdditionalInfo({ product }: { product: Product }) {
   ];
 
   return (
-    <Box sx={{ fontSize: "1rem", lineHeight: 1.6 }}>
+    <Box sx={AdditionalInfoCont}>
       {productDetails.map(
         ({ label, value }) =>
           value && (
-            <Typography component="p" sx={{ mb: 1 }} key={label}>
+            <Typography component="p" sx={infoText} key={label}>
               <strong>{label}:</strong> {value}
             </Typography>
           )
